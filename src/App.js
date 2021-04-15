@@ -1,20 +1,22 @@
 import './App.css';
+import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from './components/Snackbar';
 import { AuthProvider } from './components/Auth';
 import MainComponent from './components/MainComponent';
 
 function App() {
 	return (
-		<div className='App'>
-			<header className='App-header'>
-				HOLA
-				<AuthProvider>
-					<SnackbarProvider>
-						<MainComponent />
-					</SnackbarProvider>
-				</AuthProvider>
-			</header>
-		</div>
+		<BrowserRouter>
+			<AuthProvider>
+				<SnackbarProvider>
+					<div className='App'>
+						<header className='App-header'>
+							<MainComponent />
+						</header>
+					</div>
+				</SnackbarProvider>
+			</AuthProvider>
+		</BrowserRouter>
 	);
 }
 

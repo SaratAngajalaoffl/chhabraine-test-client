@@ -12,23 +12,21 @@ import SnackbarContext from 'components/Snackbar';
 import { useContext } from 'react';
 import { useHistory } from 'react-router';
 
-function LoginScreen() {
+function SignUpScreen() {
 	const [form, HandleChange] = useForm({
 		email: '',
 		password: '',
 	});
 
-	const { login } = useContext(AuthContext);
+	const { signup } = useContext(AuthContext);
 
 	const { openSnackbar } = useContext(SnackbarContext);
-
 	const history = useHistory();
 
 	const HandleLogin = async () => {
 		try {
-			await login(form.email, form.password);
-			openSnackbar('User logged in Successfully', 'success', 4000);
-			history.push('/profile');
+			await signup(form.email, form.password);
+			openSnackbar('User Signed in Successfully', 'success', 4000);
 		} catch (err) {
 			openSnackbar(err.message, 'error', 4000);
 		}
@@ -61,7 +59,7 @@ function LoginScreen() {
 					justify='space-around'>
 					<Grid item xs={12}>
 						<Typography variant='h3' color='primary'>
-							Login
+							Sign Up
 						</Typography>
 					</Grid>
 					<Divider />
@@ -91,15 +89,15 @@ function LoginScreen() {
 					<Grid container item xs={12} justify='flex-end'>
 						<Button
 							variant='contained'
-							color='primary'
-							onClick={HandleLogin}>
+							onClick={() => history.push('/login')}
+							color='secondary'>
 							Login
 						</Button>
 						<Button
 							style={{ marginLeft: '10px' }}
 							variant='contained'
-							onClick={() => history.push('/signup')}
-							color='secondary'>
+							color='primary'
+							onClick={HandleLogin}>
 							SignUp
 						</Button>
 					</Grid>
@@ -109,4 +107,4 @@ function LoginScreen() {
 	);
 }
 
-export default LoginScreen;
+export default SignUpScreen;

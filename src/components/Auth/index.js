@@ -7,25 +7,30 @@ const AuthProvider = ({ children }) => {
 	const [auth, setauth] = useState({
 		isauthenticated: false,
 		user: null,
-		isloading: true,
+		isloading: false,
 	});
 
 	const checkuserexists = () => {
-		// const user = app.auth().currentUser;
-		const user = {};
-		if (user) {
-			setauth({
-				isauthenticated: true,
-				user: user,
-				isloading: false,
-			});
-		} else {
-			setauth({
-				isauthenticated: false,
-				user: null,
-				isloading: true,
-			});
-		}
+		setauth({
+			isauthenticated: false,
+			user: null,
+			isloading: true,
+		});
+		app.auth().onAuthStateChanged((user) => {
+			if (user) {
+				setauth({
+					isauthenticated: true,
+					user: user,
+					isloading: false,
+				});
+			} else {
+				setauth({
+					isauthenticated: false,
+					user: null,
+					isloading: false,
+				});
+			}
+		});
 	};
 
 	const login = (email, password) => {
@@ -37,10 +42,13 @@ const AuthProvider = ({ children }) => {
 					isloading: true,
 				});
 				await app.auth().signInWithEmailAndPassword(email, password);
-				checkuserexists();
 				resolve();
 			} catch (e) {
-				checkuserexists();
+				setauth({
+					isauthenticated: false,
+					user: null,
+					isloading: false,
+				});
 				reject(e);
 			}
 		});
@@ -55,10 +63,13 @@ const AuthProvider = ({ children }) => {
 					isloading: true,
 				});
 				await app.auth().signOut();
-				checkuserexists();
 				resolve();
 			} catch (e) {
-				checkuserexists();
+				setauth({
+					isauthenticated: false,
+					user: null,
+					isloading: false,
+				});
 				reject(e);
 			}
 		});
@@ -75,10 +86,13 @@ const AuthProvider = ({ children }) => {
 				await app
 					.auth()
 					.createUserWithEmailAndPassword(email, password);
-				checkuserexists();
 				resolve();
 			} catch (e) {
-				checkuserexists();
+				setauth({
+					isauthenticated: false,
+					user: null,
+					isloading: false,
+				});
 				reject(e);
 			}
 		});

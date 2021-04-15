@@ -1,24 +1,51 @@
-import React, { useEffect, useContext } from 'react';
-import AuthContext from '../Auth';
-import SnackbarContext from '../Snackbar';
+import AuthContext from 'components/Auth';
+import React from 'react';
+import { useContext } from 'react';
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import ProfileScreen from 'views/Auth/Profile';
+import LoginScreen from '../../views/NoAuth/Login';
+import SignUpScreen from '../../views/NoAuth/SignUp';
+import Navbar from '../Navbar';
 
-function MainRoutingHandler() {
-	const { openSnackbar } = useContext(SnackbarContext);
+const AuthRoutingHandler = () => {
+	let { path } = useRouteMatch();
 
-	const { auth, checkuserexists } = useContext(AuthContext);
+	const { auth } = useContext(AuthContext);
 
-	useEffect(() => {
-		checkuserexists();
-	}, []);
-
+	if (!auth.isauthenticated) return <Redirect to='/login' />;
 
 	return (
-		<button
-			onClick={() =>
-				openSnackbar('User Successfully Logged In!', 'warning')
-			}>
-			Press Me!
-		</button>
+		<>
+			<Navbar />
+			<Route exact path={`${path}`} component={ProfileScreen} />
+		</>
+	);
+};
+
+const NoAuthRoutingHandler = () => {
+	let { path } = useRouteMatch();
+
+	const { auth } = useContext(AuthContext);
+
+	if (auth.isauthenticated) return <Redirect to='/profile' />;
+
+	return (
+		<>
+			<Route exact path={`${path}`}>
+				<Redirect to='/login' />
+			</Route>
+			<Route exact path={`/login`} component={LoginScreen} />
+			<Route exact path={`/signup`} component={SignUpScreen} />
+		</>
+	);
+};
+
+function MainRoutingHandler() {
+	return (
+		<Switch>
+			<Route path='/profile' component={AuthRoutingHandler} />
+			<Route path='/' component={NoAuthRoutingHandler} />
+		</Switch>
 	);
 }
 

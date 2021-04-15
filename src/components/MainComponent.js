@@ -9,6 +9,7 @@ function MainComponent() {
 
 	useEffect(() => {
 		checkuserexists();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	if (auth.isloading)
@@ -21,7 +22,6 @@ function MainComponent() {
 
 	return (
 		<>
-			<img src={logo} className='App-logo' alt='logo' />
 			<MainRoutingHandler />
 		</>
 	);
