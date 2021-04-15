@@ -15,8 +15,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		position: 'fixed',
-		width: '99%',
-		top: '10px',
+		width: '100%',
+		top: '0px',
 	},
 	AppBar: {
 		backgroundColor: '#206a5d',
@@ -68,6 +68,9 @@ export default function Navbar() {
 					<ButtonBase
 						component={Typography}
 						variant='h6'
+						onClick={() => {
+							history.push('/profile/dashboard');
+						}}
 						className={classes.title}>
 						Logo
 					</ButtonBase>
@@ -76,6 +79,9 @@ export default function Navbar() {
 						<IconButton
 							aria-label='account of current user'
 							aria-controls='menu-appbar'
+							onClick={() => {
+								history.push('/profile');
+							}}
 							aria-haspopup='true'
 							color='inherit'>
 							<AccountCircle />

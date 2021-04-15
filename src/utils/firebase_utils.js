@@ -1,11 +1,11 @@
 import firebase from 'firebase';
 // import app from 'configs/firebase_config';
 
-const uploadImage = (image, ininame) => {
+const uploadFile = (file, ininame) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			let name = ininame || image.name;
-			const ref = firebase.storage().ref().child(name).put(image);
+			let name = ininame || file.name;
+			const ref = firebase.storage().ref().child(name).put(file);
 			ref.on(
 				'state_changed',
 				() => {},
@@ -27,4 +27,4 @@ const uploadImage = (image, ininame) => {
 	});
 };
 
-export { uploadImage };
+export { uploadFile };

@@ -10,9 +10,7 @@ function App() {
 			<AuthProvider>
 				<SnackbarProvider>
 					<div className='App'>
-						<header className='App-header'>
-							<MainComponent />
-						</header>
+						<MainComponent />
 					</div>
 				</SnackbarProvider>
 			</AuthProvider>

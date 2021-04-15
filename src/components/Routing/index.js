@@ -1,7 +1,9 @@
+import { AudioPlayerProvider } from 'components/AudioPlayer';
 import AuthContext from 'components/Auth';
 import React from 'react';
 import { useContext } from 'react';
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import Dashboard from 'views/Auth/Dashboard';
 import ProfileScreen from 'views/Auth/Profile';
 import LoginScreen from '../../views/NoAuth/Login';
 import SignUpScreen from '../../views/NoAuth/SignUp';
@@ -15,10 +17,13 @@ const AuthRoutingHandler = () => {
 	if (!auth.isauthenticated) return <Redirect to='/login' />;
 
 	return (
-		<>
+		<AudioPlayerProvider>
 			<Navbar />
-			<Route exact path={`${path}`} component={ProfileScreen} />
-		</>
+			<Switch>
+				<Route exact path={`${path}`} component={ProfileScreen} />
+				<Route exact path={`${path}/dashboard`} component={Dashboard} />
+			</Switch>
+		</AudioPlayerProvider>
 	);
 };
 
@@ -31,11 +36,13 @@ const NoAuthRoutingHandler = () => {
 
 	return (
 		<>
-			<Route exact path={`${path}`}>
-				<Redirect to='/login' />
-			</Route>
-			<Route exact path={`/login`} component={LoginScreen} />
-			<Route exact path={`/signup`} component={SignUpScreen} />
+			<Switch>
+				<Route exact path={`${path}`}>
+					<Redirect to='/login' />
+				</Route>
+				<Route exact path={`/login`} component={LoginScreen} />
+				<Route exact path={`/signup`} component={SignUpScreen} />
+			</Switch>
 		</>
 	);
 };

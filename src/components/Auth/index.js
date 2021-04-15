@@ -7,7 +7,7 @@ const AuthProvider = ({ children }) => {
 	const [auth, setauth] = useState({
 		isauthenticated: false,
 		user: null,
-		isloading: false,
+		isloading: true,
 	});
 
 	const checkuserexists = () => {
